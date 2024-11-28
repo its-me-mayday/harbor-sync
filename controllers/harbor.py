@@ -2,9 +2,6 @@ import logging
 
 import requests
 
-from config.settings import registrySettings
-from models.registry import RegistryModel
-
 logger = logging.getLogger("harbor_sync")
 
 
@@ -37,19 +34,33 @@ class HarborController:
 
         return response.json()
 
-
-class HarborFactory:
-    @staticmethod
-    def create_registry_model():
-        """Create and returns a RegistryModel instance."""
-        return RegistryModel(
-            registrySettings.host,
-            registrySettings.username,
-            registrySettings.secret,
+    def get_tags_by_repository(self, project_name, repository_name):
+        logger.debug(
+            f"Uses project_name: {project_name}"
+            "and repository_name: {repository_name}"
         )
 
-    @staticmethod
-    def create_harbor_controller():
-        """Create and returns a HarborController instance."""
-        model = HarborFactory.create_registry_model()
-        return HarborController(model)
+        base_url = f"{self.model.url}/api/v2.0"
+        project_url = f"{base_url}/projects/{project_name}"
+        repository_url = f"{project_url}/repositories/{repository_name}"
+        url = f"{repository_url}/artifacts"
+        logger.debug(f"Uses url: {url}")
+
+        auth = (self.model.username, self.model.password)
+        logger.info(f"Auth params by username: {self.model.username}")
+
+        try:
+            response = requests.get(url, auth=auth)
+            logger.info(
+                f"Status response: {response.status_code} with url: {url}"
+            )
+            logger.debug(f"Content response: {response.content}")
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Encountered a RequestException: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Encountered an Exception: {e}")
+            raise
+
+        return response.json()
