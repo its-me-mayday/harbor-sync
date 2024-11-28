@@ -13,9 +13,13 @@ def main():
         model = RegistryModel(settings.REGISTRY_SRC, settings.USERNAME_SRC, settings.PASSWORD_SRC)
         logger.info(f"RegistryModel correctly instatiated!")
         view = CliView() 
+        logger.info(f"CliView correctly instatiated!")
         controller = HarborController(model, view) 
-        logger.info(f"Retrieve repositories for project: {PROJECT_NAME}")
-        repositories = controller.get_repositories_by_project(PROJECT_NAME)
+        logger.info(f"Controller correctly instatiated!")
+
+        logger.info(f"Retrieve repositories for project: {settings.PROJECT_NAME}")
+        repositories = controller.get_repositories_by_project(settings.PROJECT_NAME)
+        logger.info(f"Repositories found: {repositories}")
 
         if repositories:
             logger.info(f"Found {len(repositories)} repositories.")
