@@ -1,7 +1,7 @@
 import logging
 
 from config.settings import registrySettings
-from controllers.harbor import HarborController
+from controllers.harbor_controller import HarborController
 from models.registry import RegistryModel
 
 logger = logging.getLogger("harbor_sync")
