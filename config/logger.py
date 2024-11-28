@@ -1,10 +1,18 @@
 import logging
+import os
+
+class CustomFormatter(logging.Formatter):
+    def format(self, record):
+        full_path = record.pathname
+        relative_path = os.path.relpath(full_path, start=os.getcwd())
+        record.relative_filename = relative_path
+        return super().format(record)
 
 def setup_logger():
     logger = logging.getLogger("harbor_sync")
     logger.setLevel(logging.DEBUG)
 
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = CustomFormatter('%(asctime)s - %(relative_filename)s - %(funcName)s - %(levelname)s - %(message)s')
 
     file_handler = logging.FileHandler("app.log")
     file_handler.setLevel(logging.INFO)
