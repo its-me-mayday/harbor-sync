@@ -10,7 +10,8 @@ def main():
     logger.info(f"Using registry URL: {settings.REGISTRY_SRC}") 
 
     try:    
-        model = Registry.create(settings.REGISTRY_SRC, settings.USERNAME_SRC, settings.PASSWORD_SRC)
+        model = RegistryModel(settings.REGISTRY_SRC, settings.USERNAME_SRC, settings.PASSWORD_SRC)
+        logger.info(f"RegistryModel correctly instatiated!")
         view = CliView() 
         controller = HarborController(model, view) 
         logger.info(f"Retrieve repositories for project: {PROJECT_NAME}")
@@ -22,7 +23,7 @@ def main():
         else:
             logger.warning("No repository found.")
     except Exception as e:
-        logger.error(f"Error during application execution.")
+        logger.error(f"Error during application execution: {e}")
 
 if __name__ == "__main__":
     main()
