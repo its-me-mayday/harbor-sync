@@ -1,18 +1,16 @@
 from config.logger import logger
+from config.settings import settings
 from models.registry import RegistryModel
 from views.cli import CliView
 from controllers.harbor import HarborController
 
 def main():
-    REGISTRY_SRC = "https://harbor.navarcos.ccoe-nc.com"
-    USERNAME_SRC = "" # subsitute with robot$harbor
-    PASSWORD_SRC = "" # substitute with robot$harbor and setup a setting for this part (information hiding)
-    PROJECT_NAME = "ccoe"
-
     logger.info("Run Harbor Sync application.")
+    
+    logger.info(f"Using registry URL: {settings.REGISTRY_SRC}") 
 
     try:    
-        model = Registry(REGISTRY_SRC, USERNAME_SRC, PASSWORD_SRC)
+        model = Registry.create(settings.REGISTRY_SRC, settings.USERNAME_SRC, settings.PASSWORD_SRC)
         view = CliView() 
         controller = HarborController(model, view) 
         logger.info(f"Retrieve repositories for project: {PROJECT_NAME}")
