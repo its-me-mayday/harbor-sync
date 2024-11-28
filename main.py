@@ -1,27 +1,19 @@
 from config.logger import logger
-from config.settings import settings
-from controllers.harbor import HarborController
-from models.registry import RegistryModel
+from config.settings import registrySettings
+from controllers.harbor import HarborFactory
 
 
 def main():
     logger.info("Run Harbor Sync application.")
-    logger.info(f"Using registry URL: {settings.REGISTRY_SRC}")
 
     try:
-        model = RegistryModel(
-            settings.REGISTRY_SRC, settings.USERNAME_SRC, settings.PASSWORD_SRC
-        )
-        logger.debug("Model correctly instatiated!")
-        controller = HarborController(model)
+        controller = HarborFactory.create_harbor_controller()
         logger.debug("Controller correctly instatiated!")
 
-        logger.info(
-            f"Retrieve repositories for project: {settings.PROJECT_NAME}"
-        )
         repositories = controller.get_repositories_by_project(
-            settings.PROJECT_NAME
+            registrySettings.project_name
         )
+        logger.debug("Repositories retrieved!")
 
         if repositories:
             logger.info(f"Found {len(repositories)} repositories.")

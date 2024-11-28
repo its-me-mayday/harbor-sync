@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
@@ -13,4 +15,12 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
 
 
-settings = Settings()
+RegistrySettingsTuple = namedtuple(
+    "RegistrySettings", ["host", "username", "secret", "project_name"]
+)
+registrySettings = RegistrySettingsTuple(
+    host=Settings().REGISTRY_SRC,
+    username=Settings().USERNAME_SRC,
+    secret=Settings().PASSWORD_SRC,
+    project_name=Settings().PROJECT_NAME,
+)
