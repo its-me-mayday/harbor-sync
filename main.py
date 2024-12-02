@@ -6,6 +6,7 @@ from services.harbor_services import HarborService
 def main():
     logger.info("Run Harbor Sync application.")
     harborService = HarborService(registrySettings)
+    logger.debug(f"harborService: {harborService}")
     result = harborService.migrate_repository()
     logger.debug(f"result: {result}")
     logger.info(f"Harbor Sync Outcome: {result}.")
