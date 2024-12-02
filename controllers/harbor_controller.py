@@ -2,12 +2,10 @@ import logging
 
 import requests
 
-logger = logging.getLogger("harbor_sync")
-
-
 class HarborController:
-    def __init__(self, model):
+    def __init__(self, model, logger):
         self.model = model
+        self.logger = logger
 
     def get_repositories_by_project(self, project_name):
         logger.debug(f"Uses project_name: {project_name}")
