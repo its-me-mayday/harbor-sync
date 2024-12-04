@@ -27,4 +27,6 @@ class HarborController:
             repositories, registry, project_name
         )
 
+        self.logger.debug(f"Tags: {tags}")
+
         return tags

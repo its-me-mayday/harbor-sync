@@ -27,9 +27,10 @@ def main():
     )
     logger.debug(f"Repositories: {repositories}")
 
-    harbor_controller.tags_by_repository(
+    tags = harbor_controller.tags_by_repository(
         repositories, source_registry, source_settings.project_name
     )
+    logger.debug(f"Tags: {tags}")
 
 
 if __name__ == "__main__":

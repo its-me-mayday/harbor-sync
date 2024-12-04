@@ -33,6 +33,7 @@ class HarborService:
     def tags_by_project(
         self, repositories, registry: Registry, project_name: str
     ):
+        tags = []
 
         for repository in repositories:
             repository_name = self._encode_slashes(repository["name"])
@@ -49,10 +50,18 @@ class HarborService:
 
             try:
                 response = requests.get(url, auth=auth)
+                content = response.content
+                tags.append(
+                    {
+                        "repository_name": repository["name"],
+                        "artifacts": content,
+                    }
+                )
+                self.logger.debug(f"tags: {tags}")
                 self.logger.info(
                     f"Status response: {response.status_code} with url: {url}"
                 )
-                self.logger.debug(f"Content response: {response.json}")
+                self.logger.debug(f"Content response: {response}")
                 response.raise_for_status()
             except requests.exceptions.RequestException as e:
                 self.logger.error(
@@ -63,9 +72,11 @@ class HarborService:
                 self.logger.error(f"Encountered an Exception: {e}")
                 raise
 
+        return tags
+
     # In future: build a Utility class
     def _encode_slashes(self, input_string):
-        return input_string.replace("/", "%2F")
+        return input_string.split("/", 1)[-1].replace("/", "%252F")
 
     # In future: build an ApiService and setup settings route
     def _base_url(self, host):
