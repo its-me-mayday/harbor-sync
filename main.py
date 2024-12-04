@@ -22,6 +22,11 @@ def main():
     )
     logger.debug(f"Destination Registry: {destination_registry}")
 
+    repositories = harbor_controller.repositories_by_project(
+        source_registry, source_settings.project_name
+    )
+    logger.debug(f"Repositories: {repositories}")
+
 
 if __name__ == "__main__":
     main()

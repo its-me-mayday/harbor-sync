@@ -9,7 +9,7 @@ class HarborService:
         self.logger = logger
 
     def repositories_by_project(self, registry: Registry, project_name):
-        url = f"{self.model.url}/api/v2.0/projects/{project_name}/repositories"
+        url = f"{registry.host}/api/v2.0/projects/{project_name}/repositories"
         self.logger.debug(f"Repositories by project URL: {url}")
 
         auth = self._setup_auth(registry)
@@ -28,7 +28,7 @@ class HarborService:
         except Exception as e:
             self.logger.error(f"Encountered an Exception: {e}")
             raise
-        return response.json()
+        return response
 
     # def migrate_repository(self):
     #    logger.debug(
@@ -54,8 +54,8 @@ class HarborService:
     #        logger.error(f"Error during application execution: {e}")
     #    return True
 
-    def _setup_auth(registry: Registry):
-        if registry.source:
+    def _setup_auth(self, registry: Registry):
+        if registry.is_source:
             return (registry.host, source_secret.password)
         else:
             return (registry.host, destination_secret.password)
