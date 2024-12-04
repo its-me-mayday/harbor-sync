@@ -30,6 +30,20 @@ class HarborService:
             raise
         return response
 
+    def tags_by_project(
+        self, repositories, registry: Registry, project_name: str
+    ):
+        base_url = f"{registry.host}/api/v2.0"
+        project_url = f"{base_url}/projects/{project_name}"
+        self.logger.debug(f"Project url: {project_url}")
+
+        for repository in repositories:
+            self.logger.debug(f"repository: {repository}")
+
+        # repository_url = f"{project_url}/repositories/{repository_name}"
+        # url = f"{repository_url}/artifacts"
+        # logger.debug(f"Uses url: {url}")
+
     # def migrate_repository(self):
     #    logger.debug(
     #        "Starts migration repositories of project "
