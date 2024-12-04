@@ -1,10 +1,12 @@
 import logging
+
 import requests
+
 
 class HarborController:
     def __init__(self, logger):
         self.logger = logger
-    
+
     def repositories_by_project(self, project_name):
         logger.debug(f"Uses project_name: {project_name}")
 

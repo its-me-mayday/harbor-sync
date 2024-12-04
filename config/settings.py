@@ -23,16 +23,15 @@ RegistrySettingsTuple = namedtuple(
     "RegistrySettings", ["host", "username", "project_name"]
 )
 
-RegistrySecretTuple = namedtuple(
-    "RegistrySettings", ["password"]
-)
+RegistrySecretTuple = namedtuple("RegistrySettings", ["password"])
 
 source_secret = RegistrySecretTuple(
     password=Settings().PASSWORD_SRC,
-) 
+)
+
 destination_secret = RegistrySecretTuple(
     password=Settings().PASSWORD_DEST,
-) 
+)
 
 source_settings = RegistrySettingsTuple(
     host=Settings().REGISTRY_SRC,
@@ -45,4 +44,3 @@ destination_settings = RegistrySettingsTuple(
     username=Settings().USERNAME_DEST,
     project_name=Settings().PROJECT_NAME_DEST,
 )
-
