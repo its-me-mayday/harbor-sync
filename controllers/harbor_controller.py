@@ -23,6 +23,8 @@ class HarborController:
             "and repository_name: {repositories}"
         )
 
-        repositories = self._harbor_service.tags_by_project(
+        tags = self._harbor_service.tags_by_project(
             repositories, registry, project_name
         )
+
+        return tags

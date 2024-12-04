@@ -33,20 +33,50 @@ class HarborService:
     def tags_by_project(
         self, repositories, registry: Registry, project_name: str
     ):
-        base_url = f"{registry.host}/api/v2.0"
-        project_url = f"{base_url}/projects/{project_name}"
-        self.logger.debug(f"Project url: {project_url}")
 
         for repository in repositories:
-            repository_name = repository["name"]
-            url = self._url_tags(project_url, repository_name)
+            repository_name = self._encode_slashes(repository["name"])
+
+            url = self._url_tags(registry.host, project_name, repository_name)
             self.logger.debug(
                 f"repository_name: {repository_name} "
                 f"from repository: {repository} "
                 f"with url: {url}"
             )
 
-    def _url_tags(self, project_url, repository_name):
+            auth = self._setup_auth(registry)
+            self.logger.info("Set authentication part")
+
+            try:
+                response = requests.get(url, auth=auth)
+                self.logger.info(
+                    f"Status response: {response.status_code} with url: {url}"
+                )
+                self.logger.debug(f"Content response: {response.json}")
+                response.raise_for_status()
+            except requests.exceptions.RequestException as e:
+                self.logger.error(
+                    f"Encountered a RequestException with url {url}: {e}"
+                )
+                raise
+            except Exception as e:
+                self.logger.error(f"Encountered an Exception: {e}")
+                raise
+
+    # In future: build a Utility class
+    def _encode_slashes(self, input_string):
+        return input_string.replace("/", "%2F")
+
+    # In future: build an ApiService and setup settings route
+    def _base_url(self, host):
+        return f"{host}/api/v2.0"
+
+    def _url_projects(self, host, project_name):
+        base_url = self._base_url(host)
+        return f"{base_url}/projects/{project_name}"
+
+    def _url_tags(self, host: str, project_name: str, repository_name: str):
+        project_url = self._url_projects(host, project_name)
         return f"{project_url}/repositories/{repository_name}/artifacts"
 
     # def migrate_repository(self):
