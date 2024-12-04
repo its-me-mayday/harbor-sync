@@ -1,8 +1,9 @@
 from config.logger import logger
 from config.settings import destination_settings, source_settings
-from controllers.factories import (create_harbor_controller,
-                                   create_registry_controller)
-from services.harbor_service import HarborService
+from controllers.factories import (
+    create_harbor_controller,
+    create_registry_controller,
+)
 
 
 def main():
@@ -14,9 +15,11 @@ def main():
     registry_controller = create_registry_controller(logger)
     logger.debug(f"Registry Controller initiated: {registry_controller}")
 
-    source_registry = registry_controller.setup(source_settings)
+    source_registry = registry_controller.setup(source_settings, True)
     logger.debug(f"Source Registry: {source_registry}")
-    destination_registry = registry_controller.setup(destination_settings)
+    destination_registry = registry_controller.setup(
+        destination_settings, False
+    )
     logger.debug(f"Destination Registry: {destination_registry}")
 
 

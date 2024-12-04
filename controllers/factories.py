@@ -1,5 +1,3 @@
-import logging
-
 from controllers.harbor_controller import HarborController
 from controllers.registry_controller import RegistryController
 
