@@ -38,11 +38,13 @@ class HarborService:
         self.logger.debug(f"Project url: {project_url}")
 
         for repository in repositories:
-            self.logger.debug(f"repository: {repository}")
-
-        # repository_url = f"{project_url}/repositories/{repository_name}"
-        # url = f"{repository_url}/artifacts"
-        # logger.debug(f"Uses url: {url}")
+            repository_name = repository["name"]
+            url = f"{project_url}/repositories/{repository_name}/artifacts"
+            self.logger.debug(
+                f"repository_name: {repository_name} "
+                f"from repository: {repository} "
+                f"with url: {url}"
+            )
 
     # def migrate_repository(self):
     #    logger.debug(
