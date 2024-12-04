@@ -39,12 +39,15 @@ class HarborService:
 
         for repository in repositories:
             repository_name = repository["name"]
-            url = f"{project_url}/repositories/{repository_name}/artifacts"
+            url = self._url_tags(project_url, repository_name)
             self.logger.debug(
                 f"repository_name: {repository_name} "
                 f"from repository: {repository} "
                 f"with url: {url}"
             )
+
+    def _url_tags(self, project_url, repository_name):
+        return f"{project_url}/repositories/{repository_name}/artifacts"
 
     # def migrate_repository(self):
     #    logger.debug(
