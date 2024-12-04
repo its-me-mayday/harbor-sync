@@ -1,6 +1,9 @@
 import logging
 import os
 
+LOGGER = "harbor-sync"
+LOG_FILE = "harbor-sync.log"
+
 
 class CustomFormatter(logging.Formatter):
     def format(self, record):
@@ -11,7 +14,7 @@ class CustomFormatter(logging.Formatter):
 
 
 def setup_logger():
-    logger = logging.getLogger("harbor_sync")
+    logger = logging.getLogger(LOGGER)
     logger.setLevel(logging.DEBUG)
 
     formatter = CustomFormatter(
@@ -19,7 +22,7 @@ def setup_logger():
         "%(levelname)s - %(message)s"
     )
 
-    file_handler = logging.FileHandler("app.log")
+    file_handler = logging.FileHandler(LOG_FILE)
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 

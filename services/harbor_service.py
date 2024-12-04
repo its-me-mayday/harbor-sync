@@ -1,5 +1,4 @@
 from config.logger import logger
-from factories.harbor_factory import HarborFactory
 
 
 class HarborService:
@@ -13,12 +12,6 @@ class HarborService:
         )
 
         try:
-            controller = HarborFactory.create_harbor_controller()
-            logger.debug("Controller correctly instatiated!")
-
-            repositories = controller.get_repositories_by_project(
-                self.src_settings.project_name
-            )
             logger.debug("Repositories retrieved!")
 
             if repositories:
