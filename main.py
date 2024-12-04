@@ -13,6 +13,10 @@ def main():
     registry_controller = create_registry_controller(logger)
     logger.debug(f"Registry Controller initiated: {registry_controller}")
 
+    source_registry = registry_controller.setup(source_settings)
+    logger.debug(f"Source Registry: {source_registry}")
+    destination_registry = registry_controller.setup(destination_settings)
+    logger.debug(f"Destination Registry: {destination_registry}")
 
 if __name__ == "__main__":
     main()

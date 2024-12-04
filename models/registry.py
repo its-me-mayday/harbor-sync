@@ -5,11 +5,11 @@ class Registry:
     
     @property
     def host(self):
-        self._host = host
+        return self._host
     
     @property
     def username(self):
-        self._username = username
+        return self._username
     
     def __repr__(self):
       return f"Registry(host={self.host}, username={self.username})"

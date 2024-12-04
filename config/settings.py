@@ -20,20 +20,29 @@ class Settings(BaseSettings):
 
 
 RegistrySettingsTuple = namedtuple(
-    "RegistrySettings", ["host", "username", "secret", "project_name"]
+    "RegistrySettings", ["host", "username", "project_name"]
 )
+
+RegistrySecretTuple = namedtuple(
+    "RegistrySettings", ["password"]
+)
+
+source_secret = RegistrySecretTuple(
+    password=Settings().PASSWORD_SRC,
+) 
+destination_secret = RegistrySecretTuple(
+    password=Settings().PASSWORD_DEST,
+) 
 
 source_settings = RegistrySettingsTuple(
     host=Settings().REGISTRY_SRC,
     username=Settings().USERNAME_SRC,
-    secret=Settings().PASSWORD_SRC,
     project_name=Settings().PROJECT_NAME_SRC,
 )
 
 destination_settings = RegistrySettingsTuple(
     host=Settings().REGISTRY_DEST,
     username=Settings().USERNAME_DEST,
-    secret=Settings().PASSWORD_DEST,
     project_name=Settings().PROJECT_NAME_DEST,
 )
 

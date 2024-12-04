@@ -5,4 +5,5 @@ class RegistryService:
     self.logger = logger
   
   def setup(self, settings):
-    return Registry(settings.url, settings.username, settings.password)
+    registry = Registry(settings.host, settings.username)
+    return registry
